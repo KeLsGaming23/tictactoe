@@ -173,7 +173,7 @@
         function minimax(newBoard, player) {
             var availSpots = emptySquares();
 
-            if (checkWin(newBoard, huPlayer)) {
+            if (checkWin(newBoard, humanPlayer)) {
                 return { score: -10 };
             } else if (checkWin(newBoard, aiPlayer)) {
                 return { score: 10 };
