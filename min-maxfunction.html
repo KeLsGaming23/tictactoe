@@ -156,7 +156,7 @@
         }
 
         function bestSpot() {
-            return minimax(origBoard, aiPlayer).index;return emptySquares()[0];
+            return minimax(origBoard, aiPlayer).index;
         }
 
         function checkTie() {
@@ -187,7 +187,7 @@
                 newBoard[availSpots[i]] = player;
 
                 if (player == aiPlayer) {
-                    var result = minimax(newBoard, huPlayer);
+                    var result = minimax(newBoard, humanPlayer);
                     move.score = result.score;
                 } else {
                     var result = minimax(newBoard, aiPlayer);
