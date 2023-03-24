@@ -82,9 +82,15 @@
         <div class="text"></div>
     </div>
     <button onclick="startGame()">Replay</button>
+    <span id="human-player-score">Your Score: </span>
+    <span id="ai-player-score">Ai Score: </span>
+    <span id="tie-game-score">Game is Tie: </span>
     <script>
         //Varible Declaration
-        var origBoard;
+        let origBoard;
+        let humanPlayerScore = 0;
+        let aiPlayerScore = 0;
+        let tieCount = 0;
         const humanPlayer = 'O';
         const aiPlayer = 'X';
         const winCombos = [
@@ -97,7 +103,11 @@
             [0, 4, 8],
             [6, 4, 2]
         ]
+        //Get all the document class and Id in the HTML
         const cells = document.querySelectorAll('.cell');
+        const hps = document.getElementById('human-player-score');
+        const aps = document.getElementById('ai-player-score');
+        const tgs = document.getElementById('tie-game-score');
         startGame();
         function startGame() {
             document.querySelector(".endgame").style.display = "none";
@@ -145,6 +155,8 @@
                 cells[i].removeEventListener('click', turnClick, false);
             }
             declareWinner(gameWon.player == humanPlayer ? "You win!" : "You lose.");
+            //Update the score every end of the game
+            updateScore(gameWon.player);
         }
         function declareWinner(who) {
             document.querySelector(".endgame").style.display = "block";
@@ -166,6 +178,8 @@
                     cells[i].removeEventListener('click', turnClick, false);
                 }
                 declareWinner("Tie Game!")
+                tieCount++;
+                tgs.textContent = 'Game is Tie: ' + tieCount;
                 return true;
             }
             return false;
@@ -219,6 +233,21 @@
             }
 
             return moves[bestMove];
+        }
+        function updateScore(player) {
+            if (player == humanPlayer) {
+                humanPlayerScore++;
+                // console.log('Game is Tie: ' + tieCount);
+                // console.log('Your Score: ' + humanPlayerScore);
+                // console.log('Ai Score: ' + aiPlayerScore);
+                hps.textContent = 'Your Score: ' + humanPlayerScore;
+            } else {
+                aiPlayerScore++;
+                // console.log('Game is Tie: ' + tieCount);
+                // console.log('Your Score: ' + humanPlayerScore);
+                // console.log('Ai Score: ' + aiPlayerScore);
+                aps.textContent = 'Ai Score: ' + aiPlayerScore;
+            }
         }
     </script>
 </body>

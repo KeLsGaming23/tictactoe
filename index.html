@@ -156,6 +156,7 @@
                 cells[i].removeEventListener('click', turnClick, false);
             }
             declareWinner(gameWon.player == humanPlayer ? "You win!" : "You lose.");
+            //Update the score every end of the game
             updateScore(gameWon.player);
 
         }
