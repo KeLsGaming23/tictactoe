@@ -156,10 +156,10 @@
         const getPlayerName = document.getElementById('player-name');
         startGame();
         function startGame() {
-            if(playerName === ''){
+            if (playerName === '') {
                 playerName = prompt("Please enter your name:");
                 getPlayerName.innerText = playerName
-            }else {
+            } else {
                 getPlayerName.innerText = playerName
             }
             document.querySelector(".endgame").style.display = "none";
@@ -175,7 +175,13 @@
             // console.log(square.target.id);
             if (typeof origBoard[square.target.id] == 'number') {
                 turn(square.target.id, humanPlayer)
-                if (!checkTie()) turn(bestSpot(), aiPlayer);
+                // if (!checkTie()) turn(bestSpot(), aiPlayer);
+                //wait for a bit before each turn
+                if (!checkTie()) {
+                    setTimeout(function () {
+                        turn(bestSpot(), aiPlayer);
+                    }, 300); // 300 milliseconds delay
+                }
             }
         }
 
