@@ -132,6 +132,7 @@
     <script>
         //Varible Declaration
         let origBoard;
+        let playerName = '';
         let humanPlayerScore = 0;
         let aiPlayerScore = 0;
         let tieCount = 0;
@@ -155,7 +156,12 @@
         const getPlayerName = document.getElementById('player-name');
         startGame();
         function startGame() {
-            askPlayerName();
+            if(playerName === ''){
+                playerName = prompt("Please enter your name:");
+                getPlayerName.innerText = playerName
+            }else {
+                getPlayerName.innerText = playerName
+            }
             document.querySelector(".endgame").style.display = "none";
             origBoard = Array.from(Array(9).keys());
             // console.log(origBoard);
@@ -164,14 +170,6 @@
                 cells[i].style.removeProperty('background-color');
                 cells[i].addEventListener('click', turnClick, false);
             }
-        }
-        function askPlayerName() {
-            let playerName = localStorage.getItem('playerName');
-            if (!playerName) {
-                playerName = prompt("What's your name?");
-                localStorage.setItem('playerName', playerName);
-            }
-            return playerName;
         }
         function turnClick(square) {
             // console.log(square.target.id);
