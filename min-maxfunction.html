@@ -5,10 +5,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <title>Tic Tac Toe</title>
     <style>
+        body {
+            background-color: #202020d0;
+        }
+
         td {
-            border: 2px solid #333;
+            border: 2px solid white;
             height: 100px;
             width: 100px;
             text-align: center;
@@ -20,10 +26,12 @@
 
         table {
             border-collapse: collapse;
-            position: absolute;
+            margin: auto;
+            color: white;
+            /* position: absolute;
             left: 50%;
             margin-left: -155px;
-            top: 50px;
+            top: 50px; */
         }
 
         table tr:first-child td {
@@ -44,50 +52,87 @@
 
         .endgame {
             display: none;
-            width: 200px;
+            width: 400px;
             top: 120px;
-            background-color: rgba(205, 113, 63, .8);
+            background-color: rgba(28, 28, 28, 0.925);
+            margin: auto;
             position: absolute;
+            position: absolute;
+            top: 50%;
             left: 50%;
-            margin-left: -150px;
-            padding-top: 50px;
-            padding-bottom: 50px;
+            transform: translate(-50%, -50%);
+            padding: 20px 0;
             text-align: center;
             border-radius: 5px;
             color: white;
             font-size: 2em;
         }
+
+        .pair-group {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
     </style>
 </head>
 
 <body>
-    <table>
-        <tr>
-            <td class="cell" id="0"></td>
-            <td class="cell" id="1"></td>
-            <td class="cell" id="2"></td>
-        </tr>
-        <tr>
-            <td class="cell" id="3"></td>
-            <td class="cell" id="4"></td>
-            <td class="cell" id="5"></td>
-        </tr>
-        <tr>
-            <td class="cell" id="6"></td>
-            <td class="cell" id="7"></td>
-            <td class="cell" id="8"></td>
-        </tr>
-    </table>
-    <div class="endgame">
-        <div class="text"></div>
-        <button onclick="startGame()">Replay</button>
+    <div class="container-fluid">
+        <h1 class="text-center text-light">Tic-Tac-Toe</h1>
+        <div class="row mx-auto w-50">
+            <div class="col d-flex flex-column align-items-center">
+                <h3 class="text-light" id="player-name">Human</h3>
+                <div class="input-group mb-3 w-50">
+                    <span class="input-group-text">X</span>
+                    <input type="text" inputmode="numeric" id="human-player-score"
+                        class="score form-control text-center" value="0" disabled readonly>
+                </div>
+            </div>
+            <div class="col d-flex flex-column align-items-center">
+                <h3 class="text-light">Computer</h3>
+                <div class="input-group mb-3 w-50">
+                    <span class="input-group-text">O</span>
+                    <input type="text" inputmode="numeric" id="ai-player-score" class="score form-control text-center"
+                        value="0" disabled readonly>
+                </div>
+            </div>
+        </div>
+        <table class="mt-5">
+            <tr>
+                <td class="cell" id="0"></td>
+                <td class="cell" id="1"></td>
+                <td class="cell" id="2"></td>
+            </tr>
+            <tr>
+                <td class="cell" id="3"></td>
+                <td class="cell" id="4"></td>
+                <td class="cell" id="5"></td>
+            </tr>
+            <tr>
+                <td class="cell" id="6"></td>
+                <td class="cell" id="7"></td>
+                <td class="cell" id="8"></td>
+            </tr>
+        </table>
+        <div class="endgame">
+            <div class="text"></div>
+            <!-- <p id="tie-game-score">Game is Tie: </p> -->
+            <button class="btn btn-outline-light" onclick="startGame()">
+                <i class="fa-solid fa-play"></i> Play Again
+            </button>
+            <button class="btn btn-outline-light" onclick="window.location.href='index.html';">
+                <i class="fa-regular fa-face-grin-beam-sweat"></i> Return to Easy Mode!</button>
+        </div>
+        <div class="pair-group">
+            © copyright submited by: <span class="text-white"> Michael Alcoriza</span> and <span class="text-white">
+                Marlon Aragon</span>
+        </div>
     </div>
-    <span id="human-player-score">Your Score: </span>
-    <span id="ai-player-score">Ai Score: </span>
-    <span id="tie-game-score">Game is Tie: </span>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         //Varible Declaration
         let origBoard;
+        let playerName = '';
         let humanPlayerScore = 0;
         let aiPlayerScore = 0;
         let tieCount = 0;
@@ -108,8 +153,15 @@
         const hps = document.getElementById('human-player-score');
         const aps = document.getElementById('ai-player-score');
         const tgs = document.getElementById('tie-game-score');
+        const getPlayerName = document.getElementById('player-name');
         startGame();
         function startGame() {
+            if (playerName === '') {
+                playerName = prompt("Please enter your name:");
+                getPlayerName.innerText = playerName
+            } else {
+                getPlayerName.innerText = playerName
+            }
             document.querySelector(".endgame").style.display = "none";
             origBoard = Array.from(Array(9).keys());
             // console.log(origBoard);
@@ -123,7 +175,12 @@
             // console.log(square.target.id);
             if (typeof origBoard[square.target.id] == 'number') {
                 turn(square.target.id, humanPlayer)
-                if (!checkTie()) turn(bestSpot(), aiPlayer);
+                // if (!checkTie()) turn(bestSpot(), aiPlayer);
+                if (!checkTie()) {
+                    setTimeout(function () {
+                        turn(bestSpot(), aiPlayer);
+                    }, 300); // 300 milliseconds delay
+                }
             }
         }
 
@@ -240,13 +297,13 @@
                 // console.log('Game is Tie: ' + tieCount);
                 // console.log('Your Score: ' + humanPlayerScore);
                 // console.log('Ai Score: ' + aiPlayerScore);
-                hps.textContent = 'Your Score: ' + humanPlayerScore;
+                hps.value = humanPlayerScore;
             } else {
                 aiPlayerScore++;
                 // console.log('Game is Tie: ' + tieCount);
                 // console.log('Your Score: ' + humanPlayerScore);
                 // console.log('Ai Score: ' + aiPlayerScore);
-                aps.textContent = 'Ai Score: ' + aiPlayerScore;
+                aps.value = aiPlayerScore;
             }
         }
     </script>
