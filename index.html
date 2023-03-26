@@ -127,6 +127,11 @@
             © copyright submited by: <span class="text-white"> Michael Alcoriza</span> and <span class="text-white">
                 Marlon Aragon</span>
         </div>
+        <div>
+            <audio id="myAudio">
+                <source src="zapsplat_multimedia_button_click_fast_short_001_79285.mp3" type="audio/mpeg">
+            </audio>
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -154,6 +159,8 @@
         const aps = document.getElementById('ai-player-score');
         const tgs = document.getElementById('tie-game-score');
         const getPlayerName = document.getElementById('player-name');
+        const audio = document.getElementById("myAudio");
+        
         startGame();
         function startGame() {
             if (playerName === '') {
@@ -172,15 +179,16 @@
             }
         }
         function turnClick(square) {
+            audio.play();
             // console.log(square.target.id);
             if (typeof origBoard[square.target.id] == 'number') {
                 turn(square.target.id, humanPlayer)
                 // if (!checkTie()) turn(bestSpot(), aiPlayer);
                 //wait for a bit before each turn
-                if (!checkTie()) {
+                if (!checkWin(origBoard, humanPlayer) && !checkTie()) {
                     setTimeout(function () {
                         turn(bestSpot(), aiPlayer);
-                    }, 300); // 300 milliseconds delay
+                    }, 500); // 500 milliseconds delay
                 }
             }
         }
@@ -230,6 +238,7 @@
             //first Empty Square
             // return emptySquares()[0];
             //Random Empty Square
+            audio.play();
             let emptySquaresArray = emptySquares();
             let randomIndex = Math.floor(Math.random() * emptySquaresArray.length);
             return emptySquaresArray[randomIndex];
@@ -244,7 +253,7 @@
                 declareWinner("Tie Game!")
                 //Track How many Tie Game you we have
                 tieCount++;
-                tgs.textContent = 'Game is Tie: ' + tieCount;
+                // tgs.textContent = 'Game is Tie: ' + tieCount;
                 // console.log('Game is Tie: ' + tieCount);
                 // console.log('Your Score: ' + humanPlayerScore);
                 // console.log('Ai Score: ' + aiPlayerScore);
