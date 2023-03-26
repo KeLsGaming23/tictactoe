@@ -132,10 +132,14 @@
                 <source src="zapsplat_multimedia_button_click_fast_short_001_79285.mp3" type="audio/mpeg">
             </audio>
             <audio id="winning-audio">
-                <source src="zapsplat_multimedia_game_sound_bell_digital_synth_bright_harsh_award_achievement_001_40474.mp3" type="audio/mpeg">
+                <source
+                    src="zapsplat_multimedia_game_sound_bell_digital_synth_bright_harsh_award_achievement_001_40474.mp3"
+                    type="audio/mpeg">
             </audio>
             <audio id="lose-audio">
-                <source src="zapsplat_multimedia_game_tone_childrens_game_toy_piano_fail_lose_musical_riff_tone_92895.mp3" type="audio/mpeg">
+                <source
+                    src="zapsplat_multimedia_game_tone_childrens_game_toy_piano_fail_lose_musical_riff_tone_92895.mp3"
+                    type="audio/mpeg">
             </audio>
             <audio id="tie-game">
                 <source src="esm_8_bit_small_win_arcade_80s_simple_alert_notification_game.mp3" type="audio/mpeg">
@@ -181,12 +185,12 @@
                 getPlayerName.innerText = playerName
             }
             document.querySelector(".endgame").style.display = "none";
-            origBoard = Array.from(Array(9).keys());
+            origBoard = Array.from(Array(9).keys());//simplified ver. origBoard = [0, 1, 2, 3, 4, 5, 6, 7, 8];
             // console.log(origBoard);
             for (let i = 0; i < cells.length; i++) {
                 cells[i].innerHTML = '';
                 cells[i].style.removeProperty('background-color');
-                cells[i].addEventListener('click', turnClick, false);
+                cells[i].addEventListener('click', turnClick, false);// adds event click to every cells of the tictactoe
             }
         }
         function turnClick(square) {
@@ -211,8 +215,15 @@
             if (gameWon) gameOver(gameWon);
         }
         function checkWin(board, player) {
+            /* let plays = [];
+            for (let i = 0; i < board.length; i++) {
+                if (board[i] === player) {
+                    plays.push(i);
+                }
+            } */
             let plays = board.reduce((a, e, i) =>
-                (e === player) ? a.concat(i) : a, []);
+                (e === player) ? a.concat(i) : a, []);// simplified version in the top that use .reduce method and .concat method
+
             let gameWon = null;
             for (let [index, win] of winCombos.entries()) {
                 if (win.every(elem => plays.indexOf(elem) > -1)) {
