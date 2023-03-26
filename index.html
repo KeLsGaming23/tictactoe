@@ -131,6 +131,15 @@
             <audio id="myAudio">
                 <source src="zapsplat_multimedia_button_click_fast_short_001_79285.mp3" type="audio/mpeg">
             </audio>
+            <audio id="winning-audio">
+                <source src="zapsplat_multimedia_game_sound_bell_digital_synth_bright_harsh_award_achievement_001_40474.mp3" type="audio/mpeg">
+            </audio>
+            <audio id="lose-audio">
+                <source src="zapsplat_multimedia_game_tone_childrens_game_toy_piano_fail_lose_musical_riff_tone_92895.mp3" type="audio/mpeg">
+            </audio>
+            <audio id="tie-game">
+                <source src="esm_8_bit_small_win_arcade_80s_simple_alert_notification_game.mp3" type="audio/mpeg">
+            </audio>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -157,10 +166,12 @@
         const cells = document.querySelectorAll('.cell');
         const hps = document.getElementById('human-player-score');
         const aps = document.getElementById('ai-player-score');
-        const tgs = document.getElementById('tie-game-score');
+        // const tgs = document.getElementById('tie-game-score');
         const getPlayerName = document.getElementById('player-name');
         const audio = document.getElementById("myAudio");
-        
+        const winningAudio = document.getElementById("winning-audio");
+        const loseAudio = document.getElementById("lose-audio");
+        const tieGame = document.getElementById("tie-game");
         startGame();
         function startGame() {
             if (playerName === '') {
@@ -220,9 +231,17 @@
             for (let i = 0; i < cells.length; i++) {
                 cells[i].removeEventListener('click', turnClick, false);
             }
-            declareWinner(gameWon.player == humanPlayer ? "You win!" : "You lose.");
-            //Update the score every end of the game
-            updateScore(gameWon.player);
+            if (gameWon.player == humanPlayer) {
+                declareWinner("You win!");
+                //Update the score every end of the game
+                updateScore(gameWon.player);
+                winningAudio.play();
+            } else {
+                declareWinner("You lose.");
+                //Update the score every end of the game
+                updateScore(gameWon.player);
+                loseAudio.play();
+            }
 
         }
         function declareWinner(who) {
@@ -251,6 +270,7 @@
                     cells[i].removeEventListener('click', turnClick, false);
                 }
                 declareWinner("Tie Game!")
+                tieGame.play();
                 //Track How many Tie Game you we have
                 tieCount++;
                 // tgs.textContent = 'Game is Tie: ' + tieCount;
