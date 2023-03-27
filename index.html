@@ -117,6 +117,7 @@
         <div class="endgame">
             <div class="text"></div>
             <!-- <p id="tie-game-score">Game is Tie: </p> -->
+            <button class="btn btn-outline-light" onclick="deleteLocalStorage()">Reset Score</button>
             <button class="btn btn-outline-light" onclick="startGame()">
                 <i class="fa-solid fa-play"></i> Play Again
             </button>
@@ -184,9 +185,16 @@
             } else {
                 getPlayerName.innerText = playerName
             }
+            //Retrieve the score in the beginning.
+            humanPlayerScore = parseInt(localStorage.getItem('humanScore')) || 0;
+            aiPlayerScore = aiPlayerScore = parseInt(localStorage.getItem('aiScore')) || 0;
+            hps.value = humanPlayerScore;
+            aps.value = aiPlayerScore;
+            console.log(hps.value);
+            console.log(aps.value);
             document.querySelector(".endgame").style.display = "none";
             origBoard = Array.from(Array(9).keys());//simplified ver. origBoard = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-            // console.log(origBoard);
+            console.log(origBoard);
             for (let i = 0; i < cells.length; i++) {
                 cells[i].innerHTML = '';
                 cells[i].style.removeProperty('background-color');
@@ -306,6 +314,18 @@
                 // console.log('Ai Score: ' + aiPlayerScore);
                 aps.value = aiPlayerScore;
             }
+            updateLocalStorageScore();
+        }
+        //Update local storage
+        function updateLocalStorageScore() {
+            localStorage.setItem('humanScore', humanPlayerScore);
+            localStorage.setItem('aiScore', aiPlayerScore);
+        }
+        //Calls if you want to delete or reset the score!!
+        function deleteLocalStorage() {
+            localStorage.removeItem('aiScore');
+            localStorage.removeItem('humanScore');
+            startGame();
         }
     </script>
 </body>
